@@ -26,9 +26,8 @@ Luna requires a system to "see" and navigate. Given `left.png` and `right.png`, 
 2.  Translates disparity into depth.
 3.  Outputs a color-coded visualization (`depth.png`).
 
-![left image](./images/left.png)   ![right image](./images/right.png)
-  left image                           right image 
-
+![left image](./images/left.png)     ![right image](./images/right.png)
+  
 ---
 
 ### III. Methodology
@@ -145,6 +144,7 @@ The `pi.image.png` contains distorted digits. To recover them, each pixel value 
 $$Filter = \begin{bmatrix} 282 & 251 \\ 9 & 40 \end{bmatrix}$$
 
 > ![ignore](./images/distorted.png)
+
 *Figure 4:final image extracted from distorted pi image*
 
 #### 2. Restoring the Portrait
@@ -153,6 +153,7 @@ The filter is applied to the distorted artwork window-by-window. Since the **XOR
 
 
 > ![ignore](./images/template.png)
+
 *Figure 5:final image extracted from distorted pi image*
 
 #### 3. Template Matching & Password Extraction
@@ -167,6 +168,7 @@ The password unlocks a zip file containing a maze image. The **RRT-Connect** alg
 
 
 >  ![ignore](./images/finalmaze.png)
+
 *Figure 6:final maze solved using rrt algorithm*
 
 ---
@@ -175,6 +177,6 @@ The password unlocks a zip file containing a maze image. The **RRT-Connect** alg
 The successful application of reverse engineering through bitwise XOR allowed for the perfect restoration of the "Rickroll" portrait. The RRT algorithm effectively explored the maze's configuration space to provide a valid navigation path.
 
 ### V. References
-* [1] **Robot Path Planning: RRT Algorithm** - [Link to Medium Article]
-* [2] **Rapidly-Exploring Random Trees** - [Link to GitHub]
-* [3] **OpenCV Documentation** - [Link to Docs]
+* [1] **Robot Path Planning: RRT Algorithm** - [https://medium.com/geekculture/robot-path-planning-rrt-algorithm-d836fb52cb38]
+* [2] **Rapidly-Exploring Random Trees** - [https://github.com/nikhilchandak/Rapidly-Exploring-Random-Trees]
+* [3] **OpenCV Documentation** - [https://docs.opencv.org/]
