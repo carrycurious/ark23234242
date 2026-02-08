@@ -1,96 +1,102 @@
-# AERIAL ROBOTICS KHARAGPUR (entry level tasks)
+# Aerial Robotics Kharagpur | Entry Level Tasks
 
-## SUBTASK1 (Construction of depth map by using 2 images)
+## Subtask 1: Depth Map Construction from Stereo Images
 
 ### Abstract
-This work addresses the problem of depth perception for a robot by generating a depth map from stereo images.
+This project implements depth perception for the robot **Luna** by generating a depth map from stereo camera images. By calculating the disparity (horizontal shift) between corresponding points in left and right images, the system reconstructs a 3D understanding of the environment from 2D inputs.
 
-The implementation calculates depth by analyzing disparities between corresponding points in left and right camera images, effectively reconstructing the depth map and understanding the 3d environment for the robot luna.
-
-Using the given images i computed the disparity matrix by matching the template on the same horizontal line. The featureful points in the matrix were saved and the depth was calculated using the relation (the depth is inversely proportion to the disparity).
-
-Once the depth was calculated, the matrix was plotted using opencv to create a depth map which helps luna to visualize the 3d environment from the 2d images provided.
-
-**FIELDS OF USE :**
-- Autonomous Vehicles-to navigate through the 3d environement  
-- 3D Modeling and Scanning:for generating 3d models from stereo images  
+**Key Applications:**
+* **Autonomous Navigation:** Enabling robots to detect obstacles and maneuver in 3D space.
+* **3D Reconstruction:** Generating spatial models from 2D stereo pairs.
 
 ---
 
-### I. INTRODUCTION
+### I. Introduction
+The objective is to enable Luna to visualize distance. Using two parallel cameras, the system processes "left" and "right" views to produce a depth map where closer objects are highlighted in **red** and distant objects in **blue**.
 
-The problem is to help a robot named Luna, equipped with two parallel cameras, understand its surroundings. Luna is unsure whether to move forward due to objects in front of her.
-
-The task is to develop a Python code that takes images from both cameras and generates a depth map visualizing the distance of objects, with closer objects appearing red and farther ones blue. breif it even smaller.
-
-**Approach: The basic idea behind solving the problem was
-to get the good points and calculate the disparity map.To do
-the same i used the Shi thomasi and Harris algorithm built
-into opencv to select the points.This attempt failed because
-the number of points was extremely low and unable to plot
-a dense depth with it. The next approach was computing the
-disparity matrix and then clipping of the points with less
-disparity as they tend to be flat regions . The problem is the
-computation time is very high ( 30-40 seconds)**
-
-
-
----
-### II.Problem statement
-
-The task focuses on enabling a robot, Luna, to navigate its environment effectively. Luna, equipped with two cameras, struggles to process visual information for maneuvering, requiring a system to ”teach her to see.” Given stereo images from Luna’s cameras (”left.png” and ”right.png”), the
-objective is to develop a Python code that generates a depth map, a visual representation of the environment’s depth. This depth map will use red for closer objects and blue for farther ones. The implementation should primarily involve creating the depth map generation from scratch, using basic library functions for support, by measuring the shift of elements
-between the images. The final output includes the depth map (”depth.png”), code, and a detailed report.
-
----
-### III. Final approach
-## Approach
-
-### 1) Libraries Used
-- `numpy`
-- `opencv`
-
-Initially, the two given images are read, and a function for disparity is coded.
+**Development Iterations:**
+* **Initial Attempt:** Used Shi-Tomasi and Harris Corner Detection. This resulted in sparse data points, insufficient for a dense depth map.
+* **Final Approach:** Implemented a dense disparity search. While computationally heavier (~30-40s), it provides a comprehensive environmental visualization.
 
 ---
 
-### 2) Disparity Computation
-For computing the disparity matrix, a window of size **5** is taken for each pixel and matched with another window along the same horizontal axis.  
-The shift in distance is then stored in the \((i, j)\)-th position of the disparity matrix.
+### II. Problem Statement
+Luna requires a system to "see" and navigate. Given `left.png` and `right.png`, the goal is to develop a Python implementation from scratch that:
+1.  Calculates the pixel-wise shift (disparity).
+2.  Translates disparity into depth.
+3.  Outputs a color-coded visualization (`depth.png`).
 
 ---
 
-### 3) Disparity Clipping
-After computing the disparity matrix, points with extremely low disparity are clipped off, as these points tend to be flat or featureless.
+### III. Methodology
 
-The clipping range was chosen to be **(2–100)** after detailed analysis using percentiles and plotting the depth map multiple times.
+#### 1. Technical Stack
+* `OpenCV`: Image I/O and preprocessing.
+* `NumPy`: Matrix operations and numerical analysis.
 
----
+#### 2. Disparity Computation
+The disparity is computed using a **Template Matching** approach:
+* A window of size **5x5** is defined for each pixel in the left image.
+* The system searches for the most similar window along the same horizontal axis in the right image.
+* The horizontal offset is stored in a disparity matrix.
 
-### 4) Depth Computation
-The depth is computed using the formula:
 
-\[
-Z = \frac{B \times f}{d}
-\]
+
+#### 3. Noise Reduction & Clipping
+To ensure accuracy, we filter out featureless or flat regions:
+* **Disparity Clipping:** Values outside the range **[2, 100]** are discarded based on percentile analysis. This removes outliers and focuses on relevant objects.
+
+#### 4. Depth Calculation
+Depth ($Z$) is calculated using the standard stereo vision geometry:
+
+$$Z = \frac{B \times f}{d}$$
 
 Where:
-- **Z**: Depth of the point  
-- **B**: Distance between cameras (baseline)  
-- **f**: Camera focal length (in pixels)  
-- **d**: Horizontal difference of corresponding points in the images (disparity)
+* $B$: Baseline (distance between cameras).
+* $f$: Focal length.
+* $d$: Disparity.
 
-However, only **relative depth** is required for computing the depth map. Hence, we assume:
+But however, we only need the relative depth for comput-
+ing the depth map, and hence we assume ($B = f = 1$). We
 
-\[
-B = f = 1
-\]
+note that depth varies from 0-0.49 but however the important
+thing to note is that 93rd percentile is at 0.16 so the points
+above that are of little use and hence i am clipping at a
+suitable point.
 
-The depth values vary from **0–0.49**. The important observation is that the **93rd percentile lies at 0.16**, indicating that points above this threshold contribute little useful information.  
-Therefore, clipping is performed at a suitable point:
+**Optimization:**
+Statistical analysis showed that the 93rd percentile of depth values lies at 0.16. To enhance contrast for closer objects, we clip the depth values:
 
 ```python
+# Normalizing and clipping depth for better visualization
+depth = np.clip(depth, 0, 0.14)
+```
+#### 4. Min-Max Normalisation
+
+The depth map was then normalized using **Min-Max normalization** and processed for final visualization using the following steps:
+
+```python
+# Clipping at the 93rd percentile threshold
 depth = np.clip(depth, 0, 0.14)
 
+# Normalization, Color Mapping, and Dilation
+colored_depth = cv.applyColorMap(normalized_depth, cv.COLORMAP_JET)
+kernel = np.ones((3,3), np.uint8)
+dilated_depth = cv.dilate(colored_depth, kernel, iterations=1)
+```
+Mathematical formula for the following is as follows:
+$$x_{normalized} = \frac{x - x_{min}}{x_{max} - x_{min}}$$
 
+
+
+### Results and observations
+### Visual Interpretation
+The generated depth map utilizes a pseudo-color representation to visualize the spatial distance of objects relative to the robot.
+
+* 🔴 **Red (Near):** Depicts objects in close proximity to the robot.
+* 🔵 **Blue (Far):** Depicts objects that are distant or part of the background.
+
+This color scheme, based on the `COLORMAP_JET` gradient, provides an intuitive visualization where the transition from **Red** to **Blue** indicates a linear increase in distance.
+
+![Result](./images/result.png)
 
