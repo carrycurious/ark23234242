@@ -26,6 +26,9 @@ Luna requires a system to "see" and navigate. Given `left.png` and `right.png`, 
 2.  Translates disparity into depth.
 3.  Outputs a color-coded visualization (`depth.png`).
 
+![left image](./images/left.png)   ![right image](./images/right.png)
+  left image                           right image 
+
 ---
 
 ### III. Methodology
@@ -100,3 +103,8 @@ This color scheme, based on the `COLORMAP_JET` gradient, provides an intuitive v
 
 ![Result](./images/result.png)
 
+we can clearly see that the implementation done manually
+involves many trial or error and hence has much better
+accuracy.
+
+## Subtask2  
