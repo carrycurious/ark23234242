@@ -109,7 +109,6 @@ involves many trial or error and hence has much better
 accuracy.
 
 
-## SUBTASK 2: Image Restoration and Path Planning (RRT)
 
 ## SUBTASK 2: Image Restoration and Path Planning (RRT)
 
@@ -145,7 +144,7 @@ The `pi.image.png` contains distorted digits. To recover them, each pixel value 
 
 $$Filter = \begin{bmatrix} 282 & 251 \\ 9 & 40 \end{bmatrix}$$
 
-> ![ignore](./images/distored.png)
+> ![ignore](./images/distorted.png)
 *Figure 4:final image extracted from distorted pi image*
 
 #### 2. Restoring the Portrait
