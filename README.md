@@ -107,4 +107,71 @@ we can clearly see that the implementation done manually
 involves many trial or error and hence has much better
 accuracy.
 
-## Subtask2  
+
+## SUBTASK 2: Image Restoration and Path Planning (RRT)
+
+## SUBTASK 2: Image Restoration and Path Planning (RRT)
+
+### Abstract
+This project involves solving a multi-stage image processing puzzle to perform image restoration, template matching, and autonomous path planning. The workflow includes recovering a mathematical filter from distorted data, using it to decrypt an artwork, and finally implementing the **Rapidly-exploring Random Tree (RRT)** algorithm to navigate a maze.
+
+**Key Applications:**
+* **Image Restoration:** Retrieving original data from corrupted or "noisy" visual inputs.
+* **Object Localization:** Identifying specific patterns within a complex collage.
+* **Robot Path Planning:** Calculating obstacle-free paths in 2D environments.
+
+---
+
+### I. Introduction
+The objective of this task, titled "2 Gebe dich nie auf," is to solve a series of interconnected puzzles to extract a password for a secured zip file. Once unlocked, the final goal is to implement a path-planning algorithm on the contained maze image.
+
+---
+
+### II. Problem Statement
+The challenge is divided into five distinct technical phases:
+1. **Filter Recovery:** Extracting digits of $\pi$ from a distorted image to form a $2 \times 2$ filter.
+2. **Artwork Restoration:** Using bitwise operations to decrypt a distorted portrait.
+3. **Template Matching:** Locating the restored portrait within a larger collage.
+4. **Password Calculation:** Deriving a numeric password from the template coordinates.
+5. **RRT Implementation:** Planning a path through a maze extracted from the zip file.
+
+---
+
+### III. Final Approach & Workflow
+
+#### 1. Filter Recovery from Pi Image
+The `pi.image.png` contains distorted digits. To recover them, each pixel value is multiplied by $10^7$ followed by a floor function. The first 2600 digits of $\pi$ were iterated to find four specific digits: **0, 3, 8, 9**. These are arranged in descending row-major order to form the following $2 \times 2$ filter:
+
+$$Filter = \begin{bmatrix} 282 & 251 \\ 9 & 40 \end{bmatrix}$$
+
+> **[Insert your Pi Image here]**
+
+#### 2. Restoring the Portrait
+The filter is applied to the distorted artwork window-by-window. Since the **XOR** bitwise operator is its own inverse, it was used to reverse the distortion and retrieve the original portrait.
+
+
+
+> **[Insert your Restored Portrait here]**
+
+#### 3. Template Matching & Password Extraction
+The recovered portrait is scaled to $100 \times 100$ pixels and matched against `collage.png`. 
+* The top-left corner coordinates $(x, y)$ are identified.
+* The password is calculated by summing the abscissa and ordinate, then applying a scaling and rounding function.
+* **Resulting Password:** `628`
+
+#### 4. RRT-Connect Path Planning
+The password unlocks a zip file containing a maze image. The **RRT-Connect** algorithm is implemented to find a valid path from the start to the goal within the maze boundaries.
+
+
+
+> **[Insert your Final Maze Path image here]**
+
+---
+
+### IV. Results and Observations
+The successful application of reverse engineering through bitwise XOR allowed for the perfect restoration of the "Rickroll" portrait. The RRT algorithm effectively explored the maze's configuration space to provide a valid navigation path.
+
+### V. References
+* [1] **Robot Path Planning: RRT Algorithm** - [Link to Medium Article]
+* [2] **Rapidly-Exploring Random Trees** - [Link to GitHub]
+* [3] **OpenCV Documentation** - [Link to Docs]
