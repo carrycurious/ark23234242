@@ -102,6 +102,7 @@ The generated depth map utilizes a pseudo-color representation to visualize the 
 This color scheme, based on the `COLORMAP_JET` gradient, provides an intuitive visualization where the transition from **Red** to **Blue** indicates a linear increase in distance.
 
 ![Result](./images/result.png)
+*Figure 3: Final Depth Map visualization showing distance mapping (Red = Close, Blue = Far)*
 
 we can clearly see that the implementation done manually
 involves many trial or error and hence has much better
@@ -144,14 +145,16 @@ The `pi.image.png` contains distorted digits. To recover them, each pixel value 
 
 $$Filter = \begin{bmatrix} 282 & 251 \\ 9 & 40 \end{bmatrix}$$
 
-> **[Insert your Pi Image here]**
+> ![ignore](./images/distored.png)
+*Figure 4:final image extracted from distorted pi image*
 
 #### 2. Restoring the Portrait
 The filter is applied to the distorted artwork window-by-window. Since the **XOR** bitwise operator is its own inverse, it was used to reverse the distortion and retrieve the original portrait.
 
 
 
-> **[Insert your Restored Portrait here]**
+> ![ignore](./images/template.png)
+*Figure 5:final image extracted from distorted pi image*
 
 #### 3. Template Matching & Password Extraction
 The recovered portrait is scaled to $100 \times 100$ pixels and matched against `collage.png`. 
@@ -164,7 +167,8 @@ The password unlocks a zip file containing a maze image. The **RRT-Connect** alg
 
 
 
-> **[Insert your Final Maze Path image here]**
+>  ![ignore](./images/finalmaze.png)
+*Figure 6:final maze solved using rrt algorithm*
 
 ---
 
