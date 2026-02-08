@@ -1,4 +1,4 @@
-# Aerial Robotics Kharagpur | Entry Level Tasks
+# Aerial Robotics Kharagpur
 
 ## Subtask 1: Depth Map Construction from Stereo Images
 
